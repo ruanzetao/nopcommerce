@@ -15,13 +15,14 @@ public class BaseTest {
     public static final int IMPLICIT_WAIT = Constants.IMPLICIT_WAIT;
     public static final int PAGE_LOAD_TIMEOUT  = Constants.PAGE_LOAD_TIMEOUT;
 
-    private static InheritableThreadLocal<WebDriver> driverInstance = new InheritableThreadLocal<>();
+//    private static InheritableThreadLocal<WebDriver> driverInstance = new InheritableThreadLocal<>();
 
     public static WebDriver getDriver() {
-        if (driverInstance.get() == null) {
-            return null;
-        } else
-            return driverInstance.get();
+//        if (driverInstance.get() == null) {
+//            return null;
+//        } else
+//            return driverInstance.get();
+        return driver;
     }
 
     public static WebDriver initChromeDriver(){

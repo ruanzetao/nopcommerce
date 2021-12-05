@@ -1,8 +1,7 @@
 package common.browsers;
 
-import common.utilities.Constants;
-import org.openqa.selenium.WebDriver;
 import com.google.common.base.Supplier;
+import common.utilities.Constants;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +11,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +18,11 @@ import java.util.concurrent.TimeUnit;
 public class BrowserFactory {
     private static WebDriver driver;
     public static final int IMPLICIT_WAIT = Constants.IMPLICIT_WAIT;
-    public static final int PAGE_LOAD_TIMEOUT  = Constants.PAGE_LOAD_TIMEOUT;
+    public static final int PAGE_LOAD_TIMEOUT = Constants.PAGE_LOAD_TIMEOUT;
+
+    public static void setDriver(WebDriver driver) {
+        driverInstance.set(driver);
+    }
 
     private static Supplier<WebDriver> chromeDriver = () -> {
         WebDriverManager.chromedriver().setup();
@@ -50,14 +52,16 @@ public class BrowserFactory {
         driverMap.put("firefox", firefoxDriver);
     }
 
-    public static WebDriver createDriver(String browser){
-        System.out.println(browser+" browser running ...");
+    public static WebDriver createDriver(String browser) {
+        System.out.println(browser + " browser running ...");
         return driverMap.getOrDefault(browser.toLowerCase(), chromeDriver).get();
     }
+
     private static InheritableThreadLocal<WebDriver> driverInstance = new InheritableThreadLocal<>();
 
     /**
      * Lấy giá trị driver từ WebDriver trong ThreadLocal
+     *
      * @return một giá trị driver thuộc đối tượng WebDriver
      */
     public static WebDriver getDriver() {
@@ -68,9 +72,7 @@ public class BrowserFactory {
         } else
             return driverInstance.get();
     }
-    public static void setDriver(WebDriver driver) {
-        driverInstance.set(driver);
-    }
+
 
     /**
      * Removes the driver.
@@ -79,6 +81,7 @@ public class BrowserFactory {
         driverInstance.get().quit();
         driverInstance.remove();
     }
+
     public static String getInfo() {
         Capabilities cap = ((RemoteWebDriver) getDriver()).getCapabilities();
         String browserName = cap.getBrowserName();

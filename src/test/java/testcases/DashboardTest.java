@@ -1,21 +1,26 @@
 package testcases;
-import common.BaseSetup;
+//import common.BaseSetup;
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.SignInPage;
-public class DashboardTest extends BaseSetup {
+
+public class DashboardTest extends BaseTest {
     private WebDriver driver;
 
     private DashboardPage dashboardPage;
     private SignInPage signInPage;
 
+
     @BeforeClass
-    public void setupBrowser(){
+    @Parameters("appURL")
+    public void setupBrowser(String appURL){
         driver=getDriver();
+        driver.navigate().to(appURL);
     }
 
     @Test(priority = 1)
